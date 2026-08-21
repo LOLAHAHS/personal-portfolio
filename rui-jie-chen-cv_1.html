@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rui-Jie (Gino) Chen — CV</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --graphite:#14181D;
+    --paper:#ECEAE3;
+    --paper-dim:#DFDCD2;
+    --steel:#3E5C8A;
+    --steel-dim:#2E4568;
+    --rust:#B5541E;
+    --grey:#7C8798;
+    --line:#B9B4A6;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--paper);
+    color:var(--graphite);
+    font-family:'IBM Plex Sans', sans-serif;
+    line-height:1.5;
+    overflow-x:hidden;
+  }
+  ::selection{background:var(--rust); color:var(--paper);}
+
+  /* --- Blueprint grid background --- */
+  .blueprint-bg{
+    position:fixed; inset:0; z-index:-1; pointer-events:none;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size:48px 48px;
+    opacity:0.18;
+  }
+
+  .wrap{max-width:1040px; margin:0 auto; padding:0 28px;}
+
+  /* --- Header / title block --- */
+  header{
+    border-bottom:3px solid var(--graphite);
+    padding:56px 0 0 0;
+    position:relative;
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.12em;
+    color:var(--steel-dim);
+    text-transform:uppercase;
+    margin-bottom:14px;
+  }
+  .eyebrow::before{content:"REV. 2026-08 — "; color:var(--rust);}
+  h1{
+    font-family:'Oswald', sans-serif;
+    font-weight:700;
+    font-size:clamp(48px, 9vw, 96px);
+    line-height:0.94;
+    letter-spacing:-0.01em;
+    text-transform:uppercase;
+  }
+  h1 span{color:var(--steel);}
+  .role-line{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:clamp(13px, 2vw, 16px);
+    color:var(--graphite);
+    margin-top:16px;
+    padding-bottom:32px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .role-line .dot{width:8px; height:8px; background:var(--rust); border-radius:50%; flex-shrink:0;}
+
+  /* --- Title block corner (contact info) --- */
+  .title-block{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    border-top:1.5px solid var(--graphite);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+  }
+  .title-block > div{
+    border-right:1.5px solid var(--graphite);
+    padding:12px 16px;
+  }
+  .title-block > div:last-child{border-right:none;}
+  .title-block label{
+    display:block;
+    color:var(--grey);
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    font-size:10px;
+    margin-bottom:4px;
+  }
+  .title-block a{color:var(--graphite); text-decoration:none; border-bottom:1px solid var(--rust);}
+
+  section{padding:64px 0;}
+  .section-head{
+    display:flex;
+    align-items:baseline;
+    gap:16px;
+    margin-bottom:36px;
+  }
+  .section-num{
+    font-family:'IBM Plex Mono', monospace;
+    color:var(--rust);
+    font-size:13px;
+  }
+  .section-head h2{
+    font-family:'Oswald', sans-serif;
+    text-transform:uppercase;
+    font-size:clamp(24px,4vw,34px);
+    font-weight:600;
+    letter-spacing:0.01em;
+  }
+  .section-head::after{
+    content:"";
+    flex:1;
+    height:1.5px;
+    background:var(--graphite);
+    opacity:0.25;
+  }
+
+  /* --- Profile --- */
+  #profile p{
+    font-size:18px;
+    max-width:760px;
+    color:#2b2f35;
+  }
+  #profile .callouts{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:1px;
+    background:var(--graphite);
+    margin-top:36px;
+    border:1.5px solid var(--graphite);
+  }
+  #profile .callout{
+    background:var(--paper);
+    padding:20px;
+  }
+  #profile .callout .num{
+    font-family:'Oswald', sans-serif;
+    font-size:34px;
+    font-weight:600;
+    color:var(--steel);
+  }
+  #profile .callout .lbl{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    color:var(--grey);
+    margin-top:4px;
+  }
+
+  /* --- Experience: production line --- */
+  .line{
+    position:relative;
+    padding-left:36px;
+  }
+  .line::before{
+    content:"";
+    position:absolute;
+    left:8px; top:8px; bottom:8px;
+    width:3px;
+    background:repeating-linear-gradient(to bottom, var(--graphite) 0 10px, transparent 10px 16px);
+  }
+  .station{
+    position:relative;
+    padding-bottom:44px;
+    opacity:0;
+    transform:translateX(-16px);
+    transition:opacity 0.6s ease, transform 0.6s ease;
+  }
+  .station.in-view{opacity:1; transform:translateX(0);}
+  .station:last-child{padding-bottom:0;}
+  .station::before{
+    content:"";
+    position:absolute;
+    left:-36px; top:4px;
+    width:17px; height:17px;
+    background:var(--paper);
+    border:3px solid var(--graphite);
+    border-radius:50%;
+  }
+  .station-top{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    margin-bottom:6px;
+  }
+  .station h3{
+    font-family:'Oswald', sans-serif;
+    font-size:22px;
+    font-weight:600;
+    text-transform:uppercase;
+  }
+  .station .org-meta{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    color:var(--steel-dim);
+    display:flex;
+    gap:14px;
+    align-items:center;
+  }
+  .station p.desc{
+    font-size:15px;
+    color:#3a3f46;
+    max-width:640px;
+    margin-top:8px;
+  }
+  .stamp{
+    font-family:'IBM Plex Mono', monospace;
+    font-weight:600;
+    font-size:11px;
+    letter-spacing:0.08em;
+    color:var(--rust);
+    border:2px solid var(--rust);
+    border-radius:50%;
+    width:64px; height:64px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    text-transform:uppercase;
+    transform:rotate(-8deg) scale(0.9);
+    opacity:0;
+    flex-shrink:0;
+    transition:opacity 0.4s ease 0.3s, transform 0.4s ease 0.3s;
+  }
+  .station.in-view .stamp{opacity:0.85; transform:rotate(-8deg) scale(1);}
+
+  /* --- Skills / tools: gauge tags --- */
+  .tag-cloud{display:flex; flex-wrap:wrap; gap:10px;}
+  .tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    padding:8px 14px;
+    border:1.5px solid var(--graphite);
+    background:var(--paper-dim);
+  }
+  .tag.hi{background:var(--steel); color:var(--paper); border-color:var(--steel);}
+
+  .grid-2{display:grid; grid-template-columns:1fr 1fr; gap:48px;}
+  @media (max-width:720px){ .grid-2{grid-template-columns:1fr;} #profile .callouts{grid-template-columns:1fr;} .title-block{grid-template-columns:repeat(2,1fr);} }
+
+  h4.sub{
+    font-family:'IBM Plex Mono', monospace;
+    text-transform:uppercase;
+    font-size:12px;
+    letter-spacing:0.08em;
+    color:var(--grey);
+    margin-bottom:16px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:8px;
+  }
+
+  .cert-list, .edu-list{list-style:none;}
+  .cert-list li, .edu-list li{
+    padding:10px 0;
+    border-bottom:1px solid var(--line);
+    font-size:14px;
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+  }
+  .edu-list li{display:block;}
+  .edu-list .deg{font-family:'Oswald', sans-serif; font-size:17px; text-transform:uppercase;}
+  .edu-list .school-meta{font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--steel-dim); margin:2px 0 6px;}
+  .edu-list .desc{font-size:13.5px; color:#3a3f46;}
+
+  .expertise-line{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px;
+    color:var(--steel-dim);
+    padding:14px 0 0;
+    max-width:820px;
+  }
+  .expertise-line b{color:var(--rust); font-weight:600;}
+
+  #profile ul.profile-list{list-style:none; max-width:780px; margin-top:4px;}
+  #profile ul.profile-list li{
+    position:relative;
+    padding:9px 0 9px 22px;
+    font-size:15.5px;
+    color:#2b2f35;
+    border-bottom:1px solid var(--line);
+  }
+  #profile ul.profile-list li::before{
+    content:"—";
+    position:absolute; left:0; top:9px;
+    color:var(--rust);
+    font-family:'IBM Plex Mono', monospace;
+  }
+  #profile ul.profile-list li b{color:var(--graphite);}
+
+  .station .bullets{list-style:none; margin-top:12px; max-width:680px;}
+  .station .bullets li{
+    position:relative;
+    padding:5px 0 5px 18px;
+    font-size:14.5px;
+    color:#3a3f46;
+  }
+  .station .bullets li::before{
+    content:"›";
+    position:absolute; left:0; top:5px;
+    color:var(--steel);
+    font-weight:700;
+  }
+  .station .tools-line{
+    margin-top:12px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px;
+    color:var(--grey);
+    padding-top:8px;
+    border-top:1px dashed var(--line);
+    max-width:680px;
+  }
+  .station .tools-line b{color:var(--steel-dim); font-style:normal;}
+
+  .lang-bars{display:flex; flex-direction:column; gap:14px; margin-top:10px;}
+  .lang-row{display:grid; grid-template-columns:100px 1fr 70px; align-items:center; gap:12px; font-family:'IBM Plex Mono', monospace; font-size:13px;}
+  .lang-track{height:8px; background:var(--paper-dim); border:1px solid var(--graphite);}
+  .lang-fill{height:100%; background:var(--steel);}
+
+  footer{
+    border-top:3px solid var(--graphite);
+    padding:32px 0 48px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    color:var(--grey);
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .station{opacity:1; transform:none; transition:none;}
+    .stamp{opacity:0.85; transform:rotate(-8deg); transition:none;}
+  }
+
+  a:focus-visible, button:focus-visible{outline:2px solid var(--rust); outline-offset:2px;}
+</style>
+</head>
+<body>
+<div class="blueprint-bg"></div>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Personnel Specification Sheet</div>
+    <h1>Rui-Jie<br>(Gino) <span>Chen</span></h1>
+    <div class="role-line"><span class="dot"></span>Sustainability &amp; Data Analyst — Volvo Cars · Gothenburg, Sweden</div>
+    <div class="title-block">
+      <div><label>Phone</label><a href="tel:+46700080183">+46 700 08 0183</a></div>
+      <div><label>Email</label><a href="mailto:rui.jie.chen@volvocars.com">rui.jie.chen@volvocars.com</a></div>
+      <div><label>Network</label><a href="#">LinkedIn — Rui-Jie Chen</a></div>
+      <div><label>Languages</label>Svenska · English · 中文</div>
+    </div>
+    <div class="expertise-line"><b>AREAS OF EXPERTISE — </b>SDLC · Agile Process · Data Analysis · Quality Analysis in Manufacturing · Excel Analysis · Power BI · AI Automation · Git · Python</div>
+  </header>
+
+  <section id="profile">
+    <div class="section-head"><span class="section-num">01</span><h2>Profile</h2></div>
+    <ul class="profile-list">
+      <li><b>Results-driven analyst</b> and automotive professional with over 10+ years of experience at Volvo Cars across production, quality, and sustainability.</li>
+      <li><b>Leading teams</b>, driving process improvements, and delivering cost-reduction.</li>
+      <li><b>8 years of Quality Analysis in Manufacturing.</b> Assuring manufacturing quality, delivery in time and improving manufacturing processes. Quality workflows, test planning, and compliance documentation.</li>
+      <li><b>Lean methodology</b> and continuous improvement such as SDLC/Agile working. Creating test plans and solutions.</li>
+      <li><b>Strong data analyzing processes</b>, defining problems and stakeholder needs. Turning them into Power BI reports and solutions.</li>
+      <li><b>Efficient communication</b> and cross-functional stakeholder management (engineering, procurement, supply chain, production).</li>
+      <li><b>Strong curiosity</b> for solving problems and creating sustainable work environment.</li>
+      <li><b>Trilingual</b> in Swedish, English, and Chinese.</li>
+      <li><b>Founded</b> and sold an IT startup (2019–2022).</li>
+    </ul>
+    <div class="callouts">
+      <div class="callout"><div class="num">14+</div><div class="lbl">Years total experience</div></div>
+      <div class="callout"><div class="num">8</div><div class="lbl">Years quality analysis</div></div>
+      <div class="callout"><div class="num">12</div><div class="lbl">Employees led</div></div>
+    </div>
+  </section>
+
+  <section id="experience">
+    <div class="section-head"><span class="section-num">02</span><h2>Work Experience</h2></div>
+    <div class="line">
+
+      <div class="station">
+        <div class="station-top">
+          <div>
+            <h3>Sustainability Analyst</h3>
+            <div class="org-meta">VOLVO CARS · BUSINESS &amp; STRATEGY OFFICE, TORSLANDA</div>
+          </div>
+          <div class="org-meta">JAN 2026 — CURRENT</div>
+        </div>
+        <p class="desc">Project management of a waste reduction program at Volvo Cars Torslanda, involving cross-functional collaboration with stakeholder managers and engineers. Coordinating and aligning multiple departments to establish common objectives and achieve measurable improvements in overall waste reduction.</p>
+        <ul class="bullets">
+          <li>Collecting and analyzing data across multiple departments, preparing comprehensive reports for stakeholders, and developing data-driven solutions to support decision-making and operational improvements.</li>
+          <li>Facilitating cross-functional communication across Volvo Cars Torslanda to promote and implement effective waste reduction solutions and drive continuous improvement.</li>
+          <li>Collaborating with Operations, Supply Chain, and Procurement teams to drive sustainability initiatives and improve environmental performance across the company's operations.</li>
+          <li>Reduced costs in waste by identifying opportunities to improve waste sorting, handling, and recycling processes — increasing material recovery and lowering disposal volumes.</li>
+          <li>Significantly reduced costs associated with wood and combustible waste by improving waste management, sorting, and recycling processes.</li>
+        </ul>
+        <div class="tools-line"><b>TOOLS —</b> Power BI, Excel, Data handling in Python, SDLC/Agile process</div>
+      </div>
+
+      <div class="station">
+        <div class="station-top">
+          <div>
+            <h3>Quality / Sustainability Analyst</h3>
+            <div class="org-meta">VOLVO CARS · MANUFACTURING, TORSLANDA</div>
+          </div>
+          <div class="org-meta">AUG 2024 — JAN 2026</div>
+        </div>
+        <p class="desc">Analyzing quality and sustainability in manufacturing at Volvo Cars Torslanda. Improving workflow cycle on the production line, minimizing cost and waste.</p>
+        <ul class="bullets">
+          <li>Developed and implemented sustainability strategies aligned with Volvo Cars' net-zero targets, reducing production waste. Collaborated cross-functionally with engineering and production teams to identify efficiency improvements.</li>
+          <li>Quality assurance, improving logistics flow and production flow. Providing sustainable workflows and improving production cycles.</li>
+          <li>Using production documentation tools to analyze production cycles, identify inefficiencies, reduce non-value-added time, and optimize assembly processes.</li>
+          <li>Preparing and optimizing production lines for the introduction of the new EX60, including assembly processes for car doors, luggage compartments, and engine compartments.</li>
+        </ul>
+        <div class="tools-line"><b>TOOLS —</b> SDLC/Agile processes, Product Documentation Tool, Excel, Power BI</div>
+      </div>
+
+      <div class="station">
+        <div class="station-top">
+          <div>
+            <h3>Data Analyst / Engineering</h3>
+            <div class="org-meta">ERICSSON · ERICSSON ONE</div>
+          </div>
+          <div class="org-meta">OCT 2023 — AUG 2024</div>
+        </div>
+        <p class="desc">Working with Machine Learning in Ericsson One, Ericsson's own startup department — creating IT solutions for managing beehives and keeping bees alive.</p>
+        <ul class="bullets">
+          <li>Data analyzing/handling and preprocessing various data such as images, videos, sound and large complex data files, manipulating data in Python.</li>
+          <li>Training data on different AI models — ResNet18, SSD, YOLOv8 (PyTorch &amp; TensorFlow). Managing AI training on MLflow, TensorBoard, and PyTorch Lightning.</li>
+          <li>Developed an AI model to detect and analyze bee behavior, enabling beekeepers to identify potential risks such as food shortages and mite infestations and take preventive measures.</li>
+          <li>Continuously monitoring and tracking AI model performance using MLflow to support ongoing optimization and improvement.</li>
+        </ul>
+        <div class="tools-line"><b>TOOLS —</b> SDLC/Agile process, Excel, Power BI, MLflow, PyTorch Lightning, TensorFlow, Pytest, Python, ResNet18, SSD, YOLOv8</div>
+      </div>
+
+      <div class="station">
+        <div class="station-top">
+          <div>
+            <h3>Operator, Team Leader</h3>
+            <div class="org-meta">VOLVO CARS · MANUFACTURING</div>
+          </div>
+          <div class="org-meta">OCT 2015 — OCT 2023</div>
+        </div>
+        <p class="desc">Started my career as a manufacturing operator at Volvo Cars, working on the production line before progressing to a Team Leader role. Led a team of 12 employees, ensuring production targets were met while maintaining high standards of quality, safety, and on-time delivery.</p>
+        <ul class="bullets">
+          <li>Designed and executed test plans and quality workflows across the development cycle. Reviewed and optimized production processes resulting in measurable efficiency gains, ensuring compliance through detailed documentation and scenario testing.</li>
+          <li>Responsible for team performance, training, and product quality standards. Bridged communication between floor operators and management.</li>
+          <li>Using production documentation tools to analyze production cycles, identify inefficiencies, reduce non-value-added time, and optimize assembly processes.</li>
+          <li>Coordinating production line preparations for upcoming S90, V90, V60, and XC60 models, ensuring alignment across vehicle assembly, seating, and luggage compartment processes.</li>
+        </ul>
+        <div class="tools-line"><b>TOOLS —</b> ATACQ, Snow, Axxos, Maximo, BMS, BARS, Miro, QDFIPS, SBS Toolbox, TClient, Product Documentation Tool, Copilot</div>
+        <div class="stamp">Quality<br>Approved</div>
+      </div>
+
+      <div class="station">
+        <div class="station-top">
+          <div>
+            <h3>Quality / Analyst Support</h3>
+            <div class="org-meta">VOLVO CARS · QUALITY ISSUE DEPARTMENT</div>
+          </div>
+          <div class="org-meta">AUG 2014 — OCT 2015</div>
+        </div>
+        <p class="desc">Joined Volvo Cars as an intern and continued my career with the company following the successful completion of my internship.</p>
+        <ul class="bullets">
+          <li>Improving project report system: managing project report structure and improving report progression with the launch of S/V90 and XC90.</li>
+          <li>Furnishing data in Volvo Cars' project report system to enhance project objectives, upholding quality and deadline standards.</li>
+        </ul>
+        <div class="tools-line"><b>TOOLS —</b> ATACQ, BMS, BARS, Product Documentation Tool, Excel</div>
+      </div>
+
+      <div class="station">
+        <div class="station-top">
+          <div>
+            <h3>Strategic Coordinator / Recruitment Ambassador</h3>
+            <div class="org-meta">FÖRSVARSMAKTEN, KARLSKRONA</div>
+          </div>
+          <div class="org-meta">MAR 2012 — JUN 2014</div>
+        </div>
+        <p class="desc">Completed military service in Karlskrona and subsequently continued working with the Swedish Armed Forces as a Strategic Coordinator and Recruitment Ambassador.</p>
+        <ul class="bullets">
+          <li>Represented Försvarsmakten externally by actively engaging with the public, attending events, and meeting people across different settings to raise awareness of career opportunities within the organization.</li>
+          <li>Marketed job openings and educational programs through diverse media channels, supported recruitment processes to identify ideal candidates, and received pre-press release training to effectively communicate with media.</li>
+        </ul>
+        <div class="tools-line"><b>TOOLS —</b> Instagram &amp; Facebook for Business, Photoshop, Sony Video editing, various marketing tools</div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="section-head"><span class="section-num">03</span><h2>Skills &amp; Tools</h2></div>
+    <div class="grid-2" style="margin-bottom:40px;">
+      <div>
+        <h4 class="sub">Programming / Data Analyst</h4>
+        <p class="desc" style="font-size:14.5px; color:#3a3f46; margin-bottom:16px;">Python language, AI modeling, and data processing.</p>
+        <h4 class="sub">Quality / Sustainability Analyst</h4>
+        <p class="desc" style="font-size:14.5px; color:#3a3f46;">Strong analyst skills, with over 8+ years in analyst experience — using different analyst tools to reach company goals.</p>
+      </div>
+      <div>
+        <h4 class="sub">Soft / Professional Skills</h4>
+        <p class="desc" style="font-size:14.5px; color:#3a3f46; margin-bottom:16px;">Project management, cross-functional stakeholder management.</p>
+        <h4 class="sub">Lean Work</h4>
+        <p class="desc" style="font-size:14.5px; color:#3a3f46;">Lean and Agile methodology and continuous improvement, with a strong focus on cost efficiency and quality optimization.</p>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div>
+        <h4 class="sub">Programming Tools</h4>
+        <div class="tag-cloud">
+          <span class="tag hi">Python</span>
+          <span class="tag">Pytest</span>
+          <span class="tag">Git</span>
+          <span class="tag">GitHub</span>
+          <span class="tag">Azure DevOps</span>
+          <span class="tag">VS Code</span>
+          <span class="tag">Cursor</span>
+          <span class="tag">C#</span>
+          <span class="tag">Java</span>
+          <span class="tag">HTML</span>
+        </div>
+      </div>
+      <div>
+        <h4 class="sub">Analysis Tools</h4>
+        <div class="tag-cloud">
+          <span class="tag hi">Excel</span>
+          <span class="tag hi">Power BI</span>
+          <span class="tag">SDLC</span>
+          <span class="tag">Agile Processes</span>
+          <span class="tag">Snowflake</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="credentials">
+    <div class="section-head"><span class="section-num">04</span><h2>Certificates &amp; Education</h2></div>
+    <div class="grid-2">
+      <div>
+        <h4 class="sub">Certificates</h4>
+        <ul class="cert-list">
+          <li><span>Microsoft Power BI Certificate</span></li>
+          <li><span>Microsoft Excel Certificate</span></li>
+          <li><span>Google Analytics 4</span></li>
+          <li><span>Finance Data Analytics</span></li>
+          <li><span>Business Math &amp; Statistics Basic</span></li>
+          <li><span>Business Review</span></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="sub">Education</h4>
+        <ul class="edu-list">
+          <li>
+            <div class="deg">Python with AI</div>
+            <div class="school-meta">TEKNIK HÖGSKOLAN · 2023 — 2025</div>
+            <div class="desc">College program in software engineering — building AI models, data analysis, and processing.</div>
+          </li>
+          <li>
+            <div class="deg">System Architect &amp; Business Development</div>
+            <div class="school-meta">BORÅS UNIVERSITY · 2019 — 2021</div>
+            <div class="desc">C/C++, C#, and Python with a focus on embedded systems, plus IT startup and company structure fundamentals.</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="extra">
+    <div class="section-head"><span class="section-num">05</span><h2>Other Initiatives</h2></div>
+    <div class="grid-2">
+      <div>
+        <h4 class="sub">Languages</h4>
+        <div class="lang-bars">
+          <div class="lang-row"><span>Swedish</span><div class="lang-track"><div class="lang-fill" style="width:100%"></div></div><span>Native</span></div>
+          <div class="lang-row"><span>Chinese</span><div class="lang-track"><div class="lang-fill" style="width:92%"></div></div><span>Fluent</span></div>
+          <div class="lang-row"><span>English</span><div class="lang-track"><div class="lang-fill" style="width:92%"></div></div><span>Fluent</span></div>
+        </div>
+        <h4 class="sub" style="margin-top:32px;">Driving License</h4>
+        <div class="tag-cloud">
+          <span class="tag">Swedish Driving License</span>
+          <span class="tag">Chinese Driving License</span>
+        </div>
+      </div>
+      <div>
+        <h4 class="sub">Founder — IT Startup</h4>
+        <p class="desc" style="font-size:14.5px; color:#3a3f46;">Founded an IT startup in the food-tech space in 2019, built on a lean startup mindset with a focus on keeping costs down. Combined food industry know-how with an IT solution to help teams prep and deliver food more efficiently. Sold to an external company in 2022.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>SPEC SHEET — RUI-JIE (GINO) CHEN</span>
+    <span>GOTHENBURG, SWEDEN</span>
+  </footer>
+</div>
+
+<script>
+  const stations = document.querySelectorAll('.station');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('in-view'); });
+  }, { threshold: 0.25 });
+  stations.forEach(s => io.observe(s));
+</script>
+</body>
+</html>
